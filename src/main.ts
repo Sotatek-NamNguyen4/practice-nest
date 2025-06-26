@@ -6,7 +6,7 @@ import { JwtAuthGuard } from './modules/auth/auth.guard';
 import { ResponseInterceptor } from './interceptors/response.interceptor';
 import helmet from 'helmet';
 import { rateLimit } from 'express-rate-limit';
-import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { AllExceptionFilter } from './filters/http-exception.filter';
 import { ExceptionInterceptor } from './interceptors/exception.interceptor';
 
 async function bootstrap() {
@@ -37,8 +37,8 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalInterceptors(new ExceptionInterceptor());
-  app.useGlobalFilters(new HttpExceptionFilter());
-  
+  app.useGlobalFilters(new AllExceptionFilter());
+
   await app.listen(process.env.PORT ?? 3000);
   console.log('Application is running on: http://localhost:3000');
 }

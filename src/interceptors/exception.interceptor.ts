@@ -21,15 +21,7 @@ export class ExceptionInterceptor implements NestInterceptor {
           }
         );
 
-
-        
-        return throwError(() => ({
-          statusCode: 500,
-          message: 'Internal server error',
-          error: error.message,
-          timestamp: new Date().toISOString(),
-          path: url,
-        }));
+        throw error;
       })
     );
   }
