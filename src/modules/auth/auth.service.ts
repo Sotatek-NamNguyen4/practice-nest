@@ -27,7 +27,7 @@ export class AuthService {
   async login(user: UserEntity) {
     const payload: JwtPayload = { sub: user.id, username: user.username };
     return {
-      access_token: this.jwtService.sign(payload, { expiresIn: '1h' }),
+      access_token: this.jwtService.sign(payload, { expiresIn: '1d' }),
       expires_in: 86400,
       user: {
         id: user.id,

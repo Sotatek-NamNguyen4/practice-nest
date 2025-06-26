@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { TaskEntity } from '../../entities/task.entity';
 import { CreateTaskDto } from '../../dto/task/create-task.dto';
 import { UpdateTaskDto } from '../../dto/task/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { TaskNotFoundException } from '../../exceptions/custom.exception';
 
 @Injectable()
 export class TasksService {
@@ -13,9 +14,6 @@ export class TasksService {
     private taskRepo: Repository<TaskEntity>
   ) {}
 
-  // private tasks: TaskEntity[] = [];
-  // private idCounter = 1;
-
   async create(createTaskDto: CreateTaskDto): Promise<TaskEntity> {
     const task = new TaskEntity({
       title: createTaskDto.title,
@@ -23,8 +21,7 @@ export class TasksService {
       completed: createTaskDto.completed || false,
     });
 
-    await this.taskRepo.save(task);
-    return task;
+    return await this.taskRepo.save(task);
   }
 
   async findAll(): Promise<TaskEntity[]> {
@@ -34,7 +31,7 @@ export class TasksService {
   async findOne(id: number): Promise<TaskEntity> {
     const task = await this.taskRepo.findOne( {where: {id}} );
     if (!task) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
+      throw new TaskNotFoundException(id);
     }
     return task;
   }
@@ -42,7 +39,7 @@ export class TasksService {
   async update(id: number, updateTask: UpdateTaskDto): Promise<TaskEntity> {
     const task = await this.taskRepo.findOne( {where: {id}} );
     if (!task) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
+      throw new TaskNotFoundException(id);
     }
     Object.assign(task, updateTask);
     return await this.taskRepo.save(task);
@@ -51,7 +48,7 @@ export class TasksService {
   async remove(id: number): Promise<void> {
     const result = await this.taskRepo.delete(id);
     if (result.affected === 0) {
-      throw new NotFoundException(`Task with ID ${id} not found`);
+      throw new TaskNotFoundException(id);
     }
   }
 
