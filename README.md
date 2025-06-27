@@ -21,7 +21,49 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+# Task Manager
+
+## 🚀 Quick Start with Docker
+
+This project supports instant onboarding with Docker Compose. **No manual database setup required!**
+
+### 1. Build and Start Everything
+
+Normally, start with this command:
+
+```sh
+docker-compose -p task-manager up -d --build
+```
+
+- This will start both the PostgreSQL database (with UTC timezone) and the NestJS app.
+- The app will be available at: [http://localhost:3000](http://localhost:3000)
+
+Note: If you run the project for the first time, please check out the MIGRATIONS file for generating DB instruction.
+
+### 2. Stopping the Project
+
+Run:
+
+```sh
+docker-compose -p task-manager stop app
+```
+
+---
+
+## Manual Development (Advanced)
+
+If you want to run the app without Docker, you must:
+- Have PostgreSQL running on port 54328 with a `task_manager` database, user `root`, password `secret`, and timezone set to UTC.
+- Then run:
+
+```sh
+npm install
+npm run start:dev
+```
+
+---
+
+## Project Overview
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 

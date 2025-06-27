@@ -1,16 +1,16 @@
-import { UserEntity } from '../../entities/user.entity';
 import { Injectable, Logger } from '@nestjs/common';
-import { UserService } from '../../modules/user/user.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
-export default class DatabaseSeeder {
+export class SeederService {
+  private readonly logger = new Logger(SeederService.name);
 
-  private readonly logger = new Logger(DatabaseSeeder.name);
-  
   constructor(private userService: UserService) {}
 
   async seed() {
+    this.logger.log('Starting database seeding...');
     await this.seedUsers();
+    this.logger.log('Database seeding completed successfully');
   }
 
   private async seedUsers() {
@@ -38,4 +38,4 @@ export default class DatabaseSeeder {
 
     this.logger.log('Users seeding completed');
   }
-}
+} 
